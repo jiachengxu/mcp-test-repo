@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-test
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: nginx:nginx-test
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: nginx
+  source:
+    repoURL: https://github.com/jiachengxu/mcp-test-repo
+    targetRevision: HEAD
+    path: apps/nginx/overlays/test
+  destination:
+    name: nginx-cluster
+    namespace: nginx-test
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

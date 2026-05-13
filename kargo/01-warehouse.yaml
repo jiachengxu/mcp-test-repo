@@ -1,0 +1,14 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: nginx
+  namespace: nginx
+spec:
+  subscriptions:
+    - image:
+        repoURL: mirror.gcr.io/library/nginx
+        imageSelectionStrategy: SemVer
+        allowTags: ^[0-9]+\.[0-9]+\.[0-9]+$
+    - git:
+        repoURL: https://github.com/jiachengxu/mcp-test-repo
+        branch: main

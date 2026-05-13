@@ -1,0 +1,46 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: nginx-test
+  namespace: nginx
+  annotations:
+    kargo.akuity.io/argocd-context: '[{"name":"nginx-test","namespace":"argocd"}]'
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: nginx
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      steps:
+        - uses: git-clone
+          config:
+            repoURL: https://github.com/jiachengxu/mcp-test-repo
+            checkout:
+              - branch: main
+                path: ./repo
+        - uses: kustomize-set-image
+          as: update-image
+          config:
+            path: ./repo/apps/nginx/overlays/test
+            images:
+              - image: mirror.gcr.io/library/nginx
+                tag: '{{ imageFrom("mirror.gcr.io/library/nginx").Tag }}'
+        - uses: git-commit
+          as: commit
+          config:
+            path: ./repo
+            message: 'chore(test): promote {{ imageFrom("mirror.gcr.io/library/nginx").Tag }}'
+        - uses: git-push
+          config:
+            path: ./repo
+        - uses: argocd-update
+          config:
+            apps:
+              - name: nginx-test
+                namespace: argocd
+                sources:
+                  - repoURL: https://github.com/jiachengxu/mcp-test-repo
+                    desiredRevision: '{{ task.outputs.commit.commit }}'
