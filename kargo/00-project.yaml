@@ -7,6 +7,6 @@ spec:
     - stage: nginx-test
       autoPromotionEnabled: true
     - stage: nginx-staging
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
     - stage: nginx-prod
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
