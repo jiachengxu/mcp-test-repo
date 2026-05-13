@@ -25,5 +25,5 @@ spec:
                   - repoURL: https://github.com/jiachengxu/mcp-test-repo
                     kustomize:
                       images:
-                        - repoURL: mirror.gcr.io/library/nginx
-                          tag: '${{ imageFrom("mirror.gcr.io/library/nginx").Tag }}'
+                        - repoURL: polinux/stress
+                          tag: '${{ imageFrom("polinux/stress").Tag }}'
