@@ -11,15 +11,12 @@ spec:
   project: nginx
   source:
     repoURL: https://github.com/jiachengxu/mcp-test-repo
-    targetRevision: HEAD
+    targetRevision: main
     path: apps/nginx/overlays/staging
   destination:
     name: nginx-cluster
     namespace: nginx-staging
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
