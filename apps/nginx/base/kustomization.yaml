@@ -4,7 +4,6 @@ commonLabels:
   app.kubernetes.io/part-of: nginx
 resources:
   - deployment.yaml
-  - service.yaml
 images:
-  - name: mirror.gcr.io/library/nginx
-    newTag: 1.27.0
+  - name: polinux/stress
+    newTag: latest

@@ -17,14 +17,13 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: mirror.gcr.io/library/nginx:1.27.0
-          ports:
-            - name: http
-              containerPort: 80
+          image: polinux/stress:latest
+          command: ["stress"]
+          args: ["--vm", "1", "--vm-bytes", "256M", "--vm-hang", "1"]
           resources:
             requests:
               cpu: 10m
-              memory: 16Mi
+              memory: 128Mi
             limits:
               cpu: 200m
               memory: 128Mi
