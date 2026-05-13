@@ -5,7 +5,8 @@ metadata:
   labels:
     app.kubernetes.io/name: nginx
 spec:
-  progressDeadlineSeconds: 20
+  minReadySeconds: 5
+  progressDeadlineSeconds: 10
   replicas: 1
   selector:
     matchLabels:
@@ -17,13 +18,14 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: polinux/stress
-          command: ["stress"]
-          args: ["--vm", "1", "--vm-bytes", "256M", "--vm-hang", "1"]
+          image: polinux/stress:latest
+          ports:
+            - name: http
+              containerPort: 80
           resources:
             requests:
               cpu: 10m
               memory: 16Mi
             limits:
               cpu: 200m
-              memory: 200Mi
+              memory: 128Mi
