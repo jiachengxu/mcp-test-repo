@@ -16,4 +16,6 @@ spec:
               memory: 16Mi
             limits:
               cpu: 20m
-              memory: 220Mi
+              # Bumped 220Mi -> 270Mi: OOM remediation for incident 2qkpci4dqww0vvwj
+              # (polinux/stress --vm-bytes 256M exceeded the prior 220Mi limit).
+              memory: 270Mi
