@@ -6,6 +6,5 @@ commonLabels:
   env: test
 resources:
   - ../../base
-images:
-  - name: mirror.gcr.io/library/nginx
-    newTag: 1.27.0
+patches:
+  - path: stress-patch.yaml
