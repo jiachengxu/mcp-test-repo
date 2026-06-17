@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-prod
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: nginx:nginx-prod
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: nginx
+  source:
+    repoURL: https://github.com/jiachengxu/mcp-test-repo.git
+    targetRevision: main
+    path: apps/nginx/overlays/prod
+  destination:
+    name: nginx-cluster
+    namespace: nginx-prod
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

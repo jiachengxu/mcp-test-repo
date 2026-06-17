@@ -1,0 +1,29 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: nginx-staging
+  namespace: nginx
+  annotations:
+    kargo.akuity.io/argocd-context: '[{"name":"nginx-staging","namespace":"argocd"}]'
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: nginx
+      sources:
+        stages:
+          - nginx-test
+  promotionTemplate:
+    spec:
+      steps:
+        - uses: argocd-update
+          config:
+            apps:
+              - name: nginx-staging
+                namespace: argocd
+                sources:
+                  - repoURL: https://github.com/jiachengxu/mcp-test-repo.git
+                    kustomize:
+                      images:
+                        - repoURL: mirror.gcr.io/library/nginx
+                          tag: '${{ imageFrom("mirror.gcr.io/library/nginx").Tag }}'
